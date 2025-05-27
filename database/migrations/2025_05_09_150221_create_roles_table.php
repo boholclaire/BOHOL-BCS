@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\UserStatus;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -18,17 +18,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        $roles = [
-            ['name' => 'Admin'],
-            ['name' => 'Doctor'],
-        
-        ];
-
-        foreach($roles as $role){
-            Role::create($role);
-        }
-
-
+        // Insert initial roles using the DB facade instead of Eloquent
+        DB::table('roles')->insert([
+            ['name' => 'Admin', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Doctor', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Nurse', 'created_at' => now(), 'updated_at' => now()],
+        ]);
     }
 
     /**
